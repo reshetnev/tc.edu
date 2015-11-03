@@ -14,15 +14,22 @@
     <!-- Activate Spring MVC annotation scanning capability -->
 	<context:component-scan base-package="com.mycompany.webapp"></context:component-scan>
      
-  <jdbc:embedded-database id="testDataSource" type="H2">
+  <jdbc:embedded-database id="dataSource" type="H2">
      <jdbc:script location="classpath:create_schema.sql" />
      <jdbc:script location="classpath:import_data.sql" /> 
   </jdbc:embedded-database>
  
   <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>    
-	
+
+    <bean id="dmDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:mem:tc"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+    </bean>
+  
   <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-  	<property name="dataSource" ref="testDataSource" />
+  	<property name="dataSource" ref="dmDataSource" />
   	<property name="hibernateProperties">
   		<props>
 	        	<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
@@ -53,7 +60,7 @@
   	<property name="sessionFactory" ref="sessionFactory"></property>
   </bean>
 
-<bean depends-on="testDataSource"
+<bean depends-on="dataSource"
     class="org.springframework.beans.factory.config.MethodInvokingBean">
     <property name="targetClass" value="org.hsqldb.util.DatabaseManagerSwing" />
     <property name="targetMethod" value="main" />
