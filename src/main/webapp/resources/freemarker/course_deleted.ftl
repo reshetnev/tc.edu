@@ -1,0 +1,57 @@
+<html>
+<body>
+
+<p>Course deleted by ${LecturerName}
+<p>----------------------------------------------------
+<p>
+	<table>
+		<tr>
+			<td>Name:</td>
+			<td>${CourseName}</td>
+		</tr>
+		<tr>
+			<td>Category:</td>
+			<td>${CourseCategory}</td>
+		</tr>
+		<tr>
+			<td>Description:</td>
+			<td>${CourseDescription}</td>
+		</tr>
+		<tr>
+			<td>Links:</td>
+			<td>${CourseLinks}</td>
+		</tr>	
+	</table>
+</p>    
+<p>----------------------------------------------------
+<p>
+<p>Previously course was rejected by the following votes:
+<p>----------------------------------------------------
+<p>
+	<table>
+		<tr>
+			<td>Decision:</td>
+			<td>${ManagerDecisionKM}</td>
+		</tr>
+		<tr>
+			<td>Reason:</td>
+			<td>${ManagerReasonKM}</td>
+		</tr>
+	</table>
+</p>
+<p>----------------------------------------------------
+<p>
+	<table>
+		<tr>
+			<td>Decision:</td>
+			<td>${ManagerDecisionDM}</td>
+		</tr>
+		<tr>
+			<td>Reason:</td>
+			<td>${ManagerReasonDM}</td>
+		</tr>
+	</table>
+</p>
+<p>----------------------------------------------------
+</body>
+</html>

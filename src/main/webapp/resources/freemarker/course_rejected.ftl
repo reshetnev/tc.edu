@@ -1,0 +1,33 @@
+<html>
+<body>
+<p>Course was rejected by vote ${numberVote}
+<p>----------------------------------------------------
+<p>
+	<table>
+		<tr>
+			<td>Decision:</td>
+			<td>${ManagerDecisionKM}</td>
+		</tr>
+		<tr>
+			<td>Reason:</td>
+			<td>${ManagerReasonKM}</td>
+		</tr>
+	</table>
+</p>
+<p>----------------------------------------------------
+<p>
+	<table>
+		<tr>
+			<td>Decision:</td>
+			<td>${ManagerDecisionDM}</td>
+		</tr>
+		<tr>
+			<td>Reason:</td>
+			<td>${ManagerReasonDM}</td>
+		</tr>
+	</table>
+</p>
+<p>----------------------------------------------------
+<p>Update your course <a href="${CourseUpdateLink}">Update course ${CourseName}</a>
+</body>
+</html>

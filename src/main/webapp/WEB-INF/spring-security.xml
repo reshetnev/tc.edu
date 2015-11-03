@@ -1,0 +1,62 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+	
+	<global-method-security secured-annotations="enabled" />
+
+	<!-- enable use-expressions -->
+	<http auto-config="true" use-expressions="true"
+		entry-point-ref="loginUrlAuthenticationEntryPoint">
+		<intercept-url pattern="/login" access="permitAll" />
+		<intercept-url pattern="/courses" access="isAuthenticated()" />
+		<intercept-url pattern="/logout" access="isAuthenticated()" />
+		<intercept-url pattern="/courses/create" access="hasRole('Lector')" />
+		<intercept-url pattern="/courses/*/update" access="hasRole('Lector')" />
+		<intercept-url pattern="/courses/*/start" access="hasRole('Lector')" />
+		<intercept-url pattern="/courses/*/finish" access="hasRole('Lector')" />
+		<intercept-url pattern="/courses/*/notify" access="hasRole('Lector')" />						
+		<intercept-url pattern="/courses/*/delete" access="hasRole('Lector')" />		
+		<intercept-url pattern="/courses/*/subscribe" access="hasRole('User')" />
+		<intercept-url pattern="/courses/*/attend" access="hasRole('User')" />
+		<intercept-url pattern="/courses/*/evaluate" access="hasRole('User')" />
+		<intercept-url pattern="/courses/*/approve" access="hasAnyRole({'Knowledge Manager','Department Manager'})" />
+		<intercept-url pattern="/courses/**" access="isAuthenticated()" />		
+		<access-denied-handler error-page="/forbidden" />
+		<logout logout-success-url="/login" />
+	</http>
+	
+	<beans:bean id="loginUrlAuthenticationEntryPoint"
+		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<beans:constructor-arg name="loginFormUrl"
+			value="/login" />
+	</beans:bean>
+	
+	<beans:bean id="authenticationFilter"
+		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="filterProcessesUrl" value="/login" />
+		<beans:property name="usernameParameter" value="login" />
+		<beans:property name="passwordParameter" value="password" />
+		<beans:property name="authenticationSuccessHandler">
+			<beans:bean
+				class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+				<beans:property name="defaultTargetUrl" value="/courses" />
+			</beans:bean>
+		</beans:property>
+		<beans:property name="authenticationFailureHandler">
+			<beans:bean
+				class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+				<beans:property name="defaultFailureUrl" value="/login_unknown" />
+			</beans:bean>
+		</beans:property>
+	</beans:bean>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="myUserDetailsService" >
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>
